@@ -1,0 +1,146 @@
+<adapter>
+  <unique-id>kafka</unique-id>
+  <start-up-event-imp>com.adaptris.core.event.StandardAdapterStartUpEvent</start-up-event-imp>
+  <heartbeat-event-imp>com.adaptris.core.HeartbeatEvent</heartbeat-event-imp>
+  <shared-components>
+    <connections/>
+    <services/>
+  </shared-components>
+  <event-handler class="default-event-handler">
+    <unique-id>DefaultEventHandler</unique-id>
+    <connection class="null-connection">
+      <unique-id>dreamy-mayer</unique-id>
+    </connection>
+    <producer class="null-message-producer">
+      <unique-id>nostalgic-montalcini</unique-id>
+    </producer>
+  </event-handler>
+  <message-error-handler class="null-processing-exception-handler">
+    <unique-id>cranky-goldstine</unique-id>
+  </message-error-handler>
+  <failed-message-retrier class="no-retries">
+    <unique-id>romantic-poincare</unique-id>
+  </failed-message-retrier>
+  <channel-list>
+    <channel>
+      <consume-connection class="null-connection">
+        <unique-id>reverent-spence</unique-id>
+      </consume-connection>
+      <produce-connection class="null-connection"/>
+      <workflow-list>
+        <standard-workflow>
+          <consumer class="polling-trigger">
+            <unique-id>furious-pare</unique-id>
+            <poller class="fixed-interval-poller">
+              <poll-interval>
+                <unit>SECONDS</unit>
+                <interval>10</interval>
+              </poll-interval>
+            </poller>
+            <message-provider class="dynamic-polling-trigger-template">
+              <template class="embedded-scripting-service">
+                <unique-id>sick-ardinghelli</unique-id>
+                <language>javascript</language>
+                <script><![CDATA[var randomNumber = Math.floor(Math.random() * 10) + 1;
+var serviceId = randomNumber > 9 ? "" + randomNumber : "0" + randomNumber;
+var xml = "<message>" +
+ "  <block1>" +
+ "    <applicationId>F</applicationId>" +
+ "    <serviceId>" + serviceId + "</serviceId>" +
+ "    <logicalTerminal>BANKDEFMAXXX</logicalTerminal>" +
+ "    <sessionNumber>2039</sessionNumber>" +
+ "    <sequenceNumber>063581</sequenceNumber>" +
+ "  </block1>" +
+ "  <block2 type=\"output\">" +
+ "    <messageType>103</messageType>" +
+ "    <senderInputTime>1609</senderInputTime>" +
+ "    <MIRDate>050901</MIRDate>" +
+ "    <MIRLogicalTerminal>BANKDEFXAXXX</MIRLogicalTerminal>" +
+ "    <MIRSessionNumber>8954</MIRSessionNumber>" +
+ "    <MIRSequenceNumber>982945</MIRSequenceNumber>" +
+ "    <receiverOutputDate>894981</receiverOutputDate>" +
+ "    <receiverOutputTime>1609</receiverOutputTime>" +
+ "    <messagePriority>N</messagePriority>" +
+ "  </block2>" +
+ "  <block3>" +
+ "    <tag>" +
+ "      <name>108</name>" +
+ "      <value>00750532785315</value>" +
+ "    </tag>" +
+ "  </block3>" +
+ "  <block4>" +
+ "    <tag>" +
+ "      <name>20</name>" +
+ "      <value>007505327853</value>" +
+ "    </tag>" +
+ "    <tag>" +
+ "      <name>23B</name>" +
+ "      <value>CRED</value>" +
+ "    </tag>" +
+ "  </block4>" +
+ "</message>";
+
+message.setStringPayload(xml);
+if (serviceId != "09") {
+  message.addMessageHeader('serviceId', serviceId);
+}
+]]></script>
+              </template>
+            </message-provider>
+          </consumer>
+          <service-collection class="service-list">
+            <unique-id>zen-shannon</unique-id>
+            <services>
+              <xml-swift-service>
+                <unique-id>xml-to-swift</unique-id>
+              </xml-swift-service>
+              <swift-xml-service>
+                <unique-id>swift-to-xml</unique-id>
+              </swift-xml-service>
+              <xpath-metadata-service>
+                <unique-id>parse-new-service-id</unique-id>
+                <xpath-query class="configured-xpath-query">
+                  <metadata-key>newServiceId</metadata-key>
+                  <xpath-query>/message/block1/serviceId</xpath-query>
+                </xpath-query>
+              </xpath-metadata-service>
+              <if-then-otherwise>
+                <unique-id>check-service-id</unique-id>
+                <condition class="expression">
+                  <algorithm>%message{serviceId} != %message{newServiceId}</algorithm>
+                </condition>
+                <then>
+                  <service class="service-list">
+                    <unique-id>fails</unique-id>
+                    <services>
+                      <throw-exception-service>
+                        <unique-id>sick-galileo</unique-id>
+                        <exception-generator class="configured-exception">
+                          <message>serviceId and newServiceId are different</message>
+                        </exception-generator>
+                      </throw-exception-service>
+                    </services>
+                  </service>
+                </then>
+                <otherwise>
+                  <service class="service-list">
+                    <unique-id>sleepy-ramanujan</unique-id>
+                    <services/>
+                  </service>
+                </otherwise>
+              </if-then-otherwise>
+            </services>
+          </service-collection>
+          <producer class="null-message-producer"/>
+          <produce-exception-handler class="null-produce-exception-handler"/>
+          <unique-id>swift</unique-id>
+        </standard-workflow>
+      </workflow-list>
+      <unique-id>swift</unique-id>
+    </channel>
+  </channel-list>
+  <message-error-digester class="standard-message-error-digester">
+    <unique-id>ErrorDigest</unique-id>
+    <digest-max-size>100</digest-max-size>
+  </message-error-digester>
+</adapter>

@@ -1,0 +1,235 @@
+<service-test>
+  <unique-id>boring-keller</unique-id>
+  <test-client class="embedded-jmx-test-client">
+    <shared-components>
+      <connections/>
+      <services/>
+    </shared-components>
+    <shared-components-provider>
+      <services/>
+    </shared-components-provider>
+  </test-client>
+  <helpers/>
+  <test-list>
+    <unique-id>swift</unique-id>
+    <test>
+      <unique-id>xml-to-swift@swift</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[<message>
+  <block1>
+    <applicationId>F</applicationId>
+    <serviceId>01</serviceId>
+    <logicalTerminal>BANKDEFMAXXX</logicalTerminal>
+    <sessionNumber>2039</sessionNumber>
+    <sequenceNumber>063581</sequenceNumber>
+  </block1>
+  <block2 type="output">
+    <messageType>103</messageType>
+    <senderInputTime>1609</senderInputTime>
+    <MIRDate>050901</MIRDate>
+    <MIRLogicalTerminal>BANKDEFXAXXX</MIRLogicalTerminal>
+    <MIRSessionNumber>8954</MIRSessionNumber>
+    <MIRSequenceNumber>982945</MIRSequenceNumber>
+    <receiverOutputDate>894981</receiverOutputDate>
+    <receiverOutputTime>1609</receiverOutputTime>
+    <messagePriority>N</messagePriority>
+  </block2>
+  <block3>
+    <tag>
+      <name>108</name>
+      <value>00750532785315</value>
+    </tag>
+  </block3>
+  <block4>
+    <tag>
+      <name>20</name>
+      <value>007505327853</value>
+    </tag>
+    <tag>
+      <name>23B</name>
+      <value>CRED</value>
+    </tag>
+  </block4>
+</message>]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-payload-contains>
+            <payload><![CDATA[1:F01BANKDEFMAXXX2039063581]]></payload>
+          </assert-payload-contains>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>swift</channel>
+            <workflow>swift</workflow>
+            <service>xml-to-swift</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>swift-to-xml@swift</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[{1:F01BANKDEFMAXXX2039063581}{2:O1031609050901BANKDEFXAXXX89549829458949811609N}{3:{108:00750532785315}}{4:
+:20:007505327853
+:23B:CRED
+-}]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-xpath-equals>
+            <xpath><![CDATA[/message/block1/serviceId/text()]]></xpath>
+            <namespace-context/>
+            <value>01</value>
+          </assert-xpath-equals>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>swift</channel>
+            <workflow>swift</workflow>
+            <service>swift-to-xml</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>parse-new-service-id@swift</unique-id>
+      <test-case>
+        <unique-id>assert-success</unique-id>
+        <input-message-provider>
+          <metadata-provider class="empty-metadata-provider"/>
+          <payload-provider class="inline-payload-provider">
+            <payload><![CDATA[<message>
+  <block1>
+    <applicationId>F</applicationId>
+    <serviceId>01</serviceId>
+    <logicalTerminal>BANKDEFMAXXX</logicalTerminal>
+    <sessionNumber>2039</sessionNumber>
+    <sequenceNumber>063581</sequenceNumber>
+  </block1>
+  <block2 type="output">
+    <messageType>103</messageType>
+    <senderInputTime>1609</senderInputTime>
+    <MIRDate>050901</MIRDate>
+    <MIRLogicalTerminal>BANKDEFXAXXX</MIRLogicalTerminal>
+    <MIRSessionNumber>8954</MIRSessionNumber>
+    <MIRSequenceNumber>982945</MIRSequenceNumber>
+    <receiverOutputDate>894981</receiverOutputDate>
+    <receiverOutputTime>1609</receiverOutputTime>
+    <messagePriority>N</messagePriority>
+  </block2>
+  <block3>
+    <tag>
+      <name>108</name>
+      <value>00750532785315</value>
+    </tag>
+  </block3>
+  <block4>
+    <tag>
+      <name>20</name>
+      <value>007505327853</value>
+    </tag>
+    <tag>
+      <name>23B</name>
+      <value>CRED</value>
+    </tag>
+  </block4>
+</message>]]></payload>
+          </payload-provider>
+        </input-message-provider>
+        <assertions>
+          <assert-metadata-equals>
+            <metadata>
+              <key-value-pair>
+                <key>newServiceId</key>
+                <value>01</value>
+              </key-value-pair>
+            </metadata>
+          </assert-metadata-equals>
+        </assertions>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>swift</channel>
+            <workflow>swift</workflow>
+            <service>parse-new-service-id</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+    <test>
+      <unique-id>check-service-id@swift</unique-id>
+      <test-case>
+        <unique-id>assert-succesful</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider">
+            <metadata>
+              <key-value-pair>
+                <key>serviceId</key>
+                <value>01</value>
+              </key-value-pair>
+              <key-value-pair>
+                <key>newServiceId</key>
+                <value>01</value>
+              </key-value-pair>
+            </metadata>
+          </metadata-provider>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions/>
+      </test-case>
+      <test-case>
+        <unique-id>assert-failure</unique-id>
+        <input-message-provider>
+          <metadata-provider class="inline-metadata-provider">
+            <metadata>
+              <key-value-pair>
+                <key>serviceId</key>
+                <value>01</value>
+              </key-value-pair>
+            </metadata>
+          </metadata-provider>
+          <payload-provider class="empty-payload-provider"/>
+        </input-message-provider>
+        <assertions/>
+        <expected-exception>
+          <class-name>com.adaptris.core.ServiceException</class-name>
+        </expected-exception>
+      </test-case>
+      <service-to-test>
+        <source class="file-source">
+          <file>file:///${service.tester.working.directory}/src/main/interlok/config/adapter.xml</file>
+        </source>
+        <preprocessors>
+          <service-unique-id-preprocessor>
+            <channel>swift</channel>
+            <workflow>swift</workflow>
+            <service>check-service-id</service>
+          </service-unique-id-preprocessor>
+        </preprocessors>
+      </service-to-test>
+    </test>
+  </test-list>
+</service-test>
