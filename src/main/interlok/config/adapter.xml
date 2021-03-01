@@ -80,7 +80,7 @@ var xml = "<message>" +
  "  </block4>" +
  "</message>";
 
-message.setStringPayload(xml);
+message.setContent(xml, "UTF-8");
 if (serviceId != "09") {
   message.addMessageHeader('serviceId', serviceId);
 }
