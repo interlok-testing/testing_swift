@@ -1,5 +1,8 @@
 # Swift Testing
 
+[![license](https://img.shields.io/github/license/interlok-testing/testing_swift.svg)](https://github.com/interlok-testing/testing_swift/blob/develop/LICENSE)
+[![Actions Status](https://github.com/interlok-testing/testing_swift/actions/workflows/gradle-build.yml/badge.svg)](https://github.com/interlok-testing/testing_swift/actions/workflows/gradle-build.yml)
+
 Project tests interlok-swift features
 
 ## What it does
