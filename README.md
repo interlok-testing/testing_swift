@@ -16,6 +16,7 @@ Finally a If service check if the new service id equals the original one and thr
 ```mermaid
 graph LR
   subgraph Swift
+    direction LR
     PT_C[Polling Trigger] --> XS(XML To Swift)
     XS --> SX(Swift To XML)
     SX --> XP(Extract Service ID)

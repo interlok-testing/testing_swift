@@ -132,7 +132,6 @@ if (serviceId != "09") {
             </services>
           </service-collection>
           <producer class="null-message-producer"/>
-          <produce-exception-handler class="null-produce-exception-handler"/>
           <unique-id>swift</unique-id>
         </standard-workflow>
       </workflow-list>
